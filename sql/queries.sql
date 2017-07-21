@@ -65,3 +65,49 @@ WHERE program = 'NE';
 /*
     List all Thesis Group and the Students Assigned in a Term
 */
+SELECT
+    g.thesis_name AS "Thesis Group",
+    LISTAGG(s.last_name, ', ') AS "Thesis Members"
+FROM 
+    Thesis_Group g,
+    Class_Offerings co,
+    Academic_Year ay,
+    Thesis_Members tm,
+    Student s
+WHERE
+    co.class_id = g.class_id AND 
+    co.acad_yr_id = ay.acad_yr_id AND
+    tm.group_id = g.group_id AND
+    tm.student_id = s.student_id AND
+    co.term = 3
+GROUP BY 1;
+
+/*
+    List all thesis group by course
+*/
+SELECT
+    c.name AS "Course",
+    g.thesis_name AS "Thesis Group"
+FROM
+    Thesis_Group AS g,
+    Class_Offerings AS co,
+    Course AS c
+WHERE
+    co.course_id = c.course_id AND 
+    co.class_id = g.class_id
+GROUP BY 1
+
+/*
+    Count all thesis group by course
+*/
+SELECT
+    c.name AS "Course",
+    COUNT (g.thesis_group) AS "Num. of Thesis Groups"
+FROM
+    Thesis_Group AS g,
+    Class_Offerings AS co,
+    Course AS c
+WHERE
+    co.course_id = c.course_id AND 
+    co.class_id = g.class_id
+GROUP BY 1
