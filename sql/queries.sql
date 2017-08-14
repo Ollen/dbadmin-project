@@ -9,7 +9,7 @@ SELECT
     f.hire_status AS "Hire Status",
     f.department AS "Department",
     f.college AS "College",
-    LISTAGG(e.name, ', ') AS "Expertise"
+    LISTAGG(e.title, ', ') AS "Expertise"
 FROM
     Faculty AS f,
     Faculty_Expertise AS fe,
@@ -17,7 +17,13 @@ FROM
 WHERE
     fe.faculty_id = f.faculty_id AND 
     fe.expert_id = e.expert_id
-GROUP BY 1
+GROUP BY 
+	f.last_name,
+	f.first_name,
+	f.rank,
+	f.hire_status,
+	f.department,
+	f.college;
 
 /*
     List all faculty members as adviser with their corresponding thesis group
